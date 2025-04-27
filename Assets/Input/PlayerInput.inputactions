@@ -1,0 +1,54 @@
+{
+    "name": "FlappyBirdInput",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "73115810-dd00-4abf-af85-58242290056b",
+            "actions": [
+                {
+                    "name": "Unfreeze",
+                    "type": "Button",
+                    "id": "ecba4c50-99b9-4db0-8979-8630def5d49c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Fly",
+                    "type": "Button",
+                    "id": "6e313a7e-0937-49fb-819b-a99ee0f257e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4fc9b82b-9912-4d26-b89b-7ce7b33b50f7",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unfreeze",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3eb2bad5-6981-4da8-a702-a524817b93e5",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fly",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
