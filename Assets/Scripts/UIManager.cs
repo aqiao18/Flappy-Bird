@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private FlappyBird flappyBird;
     [SerializeField] private PipeManager pipes;
     [SerializeField] private ScoreManager currentScore;
+    [SerializeField] private Button clearScoreButton;
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
@@ -37,9 +38,6 @@ public class UIManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
-        // PlayerPrefs.DeleteKey("Leaderboard");
-        // PlayerPrefs.DeleteKey("HighScore");
-        // PlayerPrefs.Save();
     }
 
     private void Start()
@@ -62,6 +60,7 @@ public class UIManager : MonoBehaviour
         playButton.onClick.AddListener(StartGame);
         hiScoreButton.onClick.AddListener(ShowHighScore);
         leaderboardBackButton.onClick.AddListener(HideHighScore);
+        clearScoreButton.onClick.AddListener(clearScores);
     }
 
     private void RestartGame()
@@ -165,5 +164,12 @@ public class UIManager : MonoBehaviour
         currentScore.ResetScore();
         if (!goingHome) currentScore.ShowScore();
         GameStarted = false;
+    }
+
+    private void clearScores() {
+        PlayerPrefs.DeleteKey("Leaderboard");
+        PlayerPrefs.DeleteKey("HighScore");
+        PlayerPrefs.Save();
+        Debug.Log("Clearing all score data");
     }
 }
