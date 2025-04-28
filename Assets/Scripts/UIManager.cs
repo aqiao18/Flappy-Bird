@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RawImage scrollingBackground;
     private static bool IsRestarting = false;
 
-
+    #region Unity Callbacks
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -60,13 +60,15 @@ public class UIManager : MonoBehaviour
         playButton.onClick.AddListener(StartGame);
         hiScoreButton.onClick.AddListener(ShowHighScore);
         leaderboardBackButton.onClick.AddListener(HideHighScore);
-        clearScoreButton.onClick.AddListener(clearScores);
+        clearScoreButton.onClick.AddListener(ClearScores);
     }
+    #endregion
 
+    #region Button Methods
     private void RestartGame()
     {
         IsRestarting = true;
-        resetAll(false);
+        ResetAll(false);
     }
 
     private void StartGame()
@@ -76,20 +78,10 @@ public class UIManager : MonoBehaviour
         currentScore.ShowScore();
     }
 
-    public void ShowGameOver(int finalScore)
+    private void GoHome()
     {
-        gameOverPanel.SetActive(true);
-
-        ScoreManager.Instance.CheckHighScore(finalScore);
-        int highScore = ScoreManager.Instance.GetHighScore();
-
-        LeaderboardData data = LeaderboardData.LoadLeaderboard();
-        data.AddScore(finalScore);
-
-        scoreText.text = "Score: " + finalScore;
-        hiScoreText.text = "Best: " + highScore;
-
-        Time.timeScale = 0f;
+        IsRestarting = false;
+        ResetAll(goingHome: true);
     }
 
     public void ShowHighScore()
@@ -119,6 +111,32 @@ public class UIManager : MonoBehaviour
         leaderboardPanel.SetActive(false);
     }
 
+    private void ClearScores()
+    {
+        PlayerPrefs.DeleteKey("Leaderboard");
+        PlayerPrefs.DeleteKey("HighScore");
+        PlayerPrefs.Save();
+        Debug.Log("Clearing all score data");
+    }
+    #endregion
+
+    #region Game Management
+    public void ShowGameOver(int finalScore)
+    {
+        gameOverPanel.SetActive(true);
+
+        ScoreManager.Instance.CheckHighScore(finalScore);
+        int highScore = ScoreManager.Instance.GetHighScore();
+
+        LeaderboardData data = LeaderboardData.LoadLeaderboard();
+        data.AddScore(finalScore);
+
+        scoreText.text = "Score: " + finalScore;
+        hiScoreText.text = "Best: " + highScore;
+
+        Time.timeScale = 0f;
+    }
+
     public void MarkGameStarted()
     {
         GameStarted = true;
@@ -129,30 +147,8 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void HideAllMenus()
+    private void ResetAll(bool goingHome)
     {
-        gameOverPanel.SetActive(false);
-        mainMenuPanel.SetActive(false);
-        leaderboardPanel.SetActive(false);
-    }
-    public bool IsMainMenuOpen()
-    {
-        return mainMenuPanel.activeSelf;
-    }
-    private void GoHome()
-    {
-        IsRestarting = false;
-        resetAll(goingHome: true);
-    }
-    private void HideScrollingBackground() {
-        if (scrollingBackground != null) scrollingBackground.gameObject.SetActive(false);
-    }
-
-    private void ShowScrollingBackground() {
-        if (scrollingBackground != null) scrollingBackground.gameObject.SetActive(true);
-    }
-
-    private void resetAll(bool goingHome) {
         mainMenuPanel.SetActive(goingHome ? true : false);
 
         gameOverPanel.SetActive(false);
@@ -165,11 +161,25 @@ public class UIManager : MonoBehaviour
         if (!goingHome) currentScore.ShowScore();
         GameStarted = false;
     }
+    #endregion
 
-    private void clearScores() {
-        PlayerPrefs.DeleteKey("Leaderboard");
-        PlayerPrefs.DeleteKey("HighScore");
-        PlayerPrefs.Save();
-        Debug.Log("Clearing all score data");
+    #region Helpers
+    private void HideAllMenus()
+    {
+        gameOverPanel.SetActive(false);
+        mainMenuPanel.SetActive(false);
+        leaderboardPanel.SetActive(false);
     }
+    public bool IsMainMenuOpen()
+    {
+        return mainMenuPanel.activeSelf;
+    }
+    private void HideScrollingBackground() {
+        if (scrollingBackground != null) scrollingBackground.gameObject.SetActive(false);
+    }
+
+    private void ShowScrollingBackground() {
+        if (scrollingBackground != null) scrollingBackground.gameObject.SetActive(true);
+    }
+    #endregion
 }
