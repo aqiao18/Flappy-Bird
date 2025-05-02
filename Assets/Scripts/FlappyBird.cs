@@ -12,7 +12,10 @@ public class FlappyBird : MonoBehaviour
     private bool isGameOver = false;
     private float minY, maxY;
     private Vector3 startPosition;
-
+    [SerializeField] private Sprite birdUp;
+    [SerializeField] private Sprite birdMid;
+    [SerializeField] private Sprite birdDown;
+    private SpriteRenderer sr;
     [SerializeField] private float flyForce = 5f;
     [SerializeField] private float flyTorque = 100f;
     private float smoothRotateSpeed = 5f;
@@ -22,6 +25,8 @@ public class FlappyBird : MonoBehaviour
     {
         inputActions = new PlayerInput();
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+
 
         // Bind fly action to the onFly method
         inputActions.Gameplay.Fly.performed += OnFly;
@@ -41,6 +46,20 @@ public class FlappyBird : MonoBehaviour
     {
         // if (!UIManager.Instance.GameStarted) return;
         float tilt = (rb.velocity.y > 0) ? tiltAngle : (rb.velocity.y < 0 ? -tiltAngle : 0f);
+
+        // Change sprite based on vertical velocity
+        if (rb.velocity.y > 1f)
+        {
+            sr.sprite = birdUp;
+        }
+        else if (rb.velocity.y < -1f)
+        {
+            sr.sprite = birdDown;
+        }
+        else
+        {
+            sr.sprite = birdMid;
+        }
 
         Quaternion targetRotation = Quaternion.Euler(0, 0, tilt);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * smoothRotateSpeed);
@@ -92,6 +111,10 @@ public class FlappyBird : MonoBehaviour
         if (collision.gameObject.CompareTag("Pipes"))
         {
             EndGame("Bird hit the pipe.");
+        }
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            EndGame("Bird hit the ground.");
         }
     }
 
