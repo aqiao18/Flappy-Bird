@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UIElements;
 
 public class FlappyBird : MonoBehaviour
 {
@@ -64,8 +65,10 @@ public class FlappyBird : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, 0, tilt);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * smoothRotateSpeed);
 
-        if (transform.position.y - 0.7f <= minY || transform.position.y + 0.7f >= maxY)
+        if (!isGameOver && (transform.position.y - 0.7f <= minY || transform.position.y + 0.7f >= maxY))
         {
+            SoundManager.Instance.PlayCollisionSound();
+            BackgroundLooper.pauseScrolling = true;
             EndGame("Bird hit the edge.");
         }
         
@@ -94,15 +97,16 @@ public class FlappyBird : MonoBehaviour
     private void OnFly(InputAction.CallbackContext context)
     {
         if (isGameOver) return;
-
         if (UIManager.Instance.IsMainMenuOpen()) return;
 
         if (!UIManager.Instance.GameStarted)
         {
             UIManager.Instance.UnfreezeTime();
             UIManager.Instance.MarkGameStarted();
+            BackgroundLooper.pauseScrolling = false;
         }
 
+        SoundManager.Instance.PlayFlapSound();
         rb.AddForce(Vector2.up * flyForce, ForceMode2D.Impulse);
     }
 
@@ -110,10 +114,14 @@ public class FlappyBird : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Pipes"))
         {
+            SoundManager.Instance.PlayCollisionSound();
+            BackgroundLooper.pauseScrolling = true;
             EndGame("Bird hit the pipe.");
         }
-        if (collision.gameObject.CompareTag("Ground"))
+        else if (collision.gameObject.CompareTag("Ground"))
         {
+            SoundManager.Instance.PlayCollisionSound();
+            BackgroundLooper.pauseScrolling = true;
             EndGame("Bird hit the ground.");
         }
     }

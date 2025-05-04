@@ -46,10 +46,12 @@ public class UIManager : MonoBehaviour
         if (!IsRestarting)
         {
             mainMenuPanel.SetActive(true);
+            SoundManager.Instance.PlayThemeMusic();
         }
         else
         {
             mainMenuPanel.SetActive(false);
+            SoundManager.Instance.StopThemeMusic();
             HideScrollingBackground();
             IsRestarting = false;
         }
@@ -74,14 +76,17 @@ public class UIManager : MonoBehaviour
     private void StartGame()
     {
         mainMenuPanel.SetActive(false);
+        SoundManager.Instance.StopThemeMusic();
         HideScrollingBackground();
         currentScore.ShowScore();
+        BackgroundLooper.pauseScrolling = true;
     }
 
     private void GoHome()
     {
         IsRestarting = false;
         ResetAll(goingHome: true);
+        SoundManager.Instance.PlayThemeMusic();
     }
 
     public void ShowHighScore()
@@ -126,6 +131,7 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         ScoreManager.Instance.CheckHighScore(finalScore);
+        BackgroundLooper.pauseScrolling = true;
         int highScore = ScoreManager.Instance.GetHighScore();
 
         LeaderboardData data = LeaderboardData.LoadLeaderboard();
@@ -160,6 +166,7 @@ public class UIManager : MonoBehaviour
         currentScore.ResetScore();
         if (!goingHome) currentScore.ShowScore();
         GameStarted = false;
+        if (goingHome) BackgroundLooper.pauseScrolling = false;
     }
     #endregion
 
@@ -169,6 +176,7 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(false);
         mainMenuPanel.SetActive(false);
         leaderboardPanel.SetActive(false);
+        SoundManager.Instance.StopThemeMusic();
     }
     public bool IsMainMenuOpen()
     {

@@ -8,6 +8,7 @@ public class ScoreZone : MonoBehaviour
     {
         if (!scored && other.CompareTag("Player"))
         {
+            SoundManager.Instance.PlayScoreSound();
             ScoreManager.Instance.AddScore(1);
             scored = true;
         }
