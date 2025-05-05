@@ -98,13 +98,13 @@ public class FlappyBird : MonoBehaviour
     {
         if (isGameOver) return;
         if (UIManager.Instance.IsMainMenuOpen()) return;
+        if (!UIManager.Instance.GameStarted) return;
 
-        if (!UIManager.Instance.GameStarted)
-        {
-            UIManager.Instance.UnfreezeTime();
-            UIManager.Instance.MarkGameStarted();
-            BackgroundLooper.pauseScrolling = false;
-        }
+
+        UIManager.Instance.UnfreezeTime();
+        UIManager.Instance.MarkGameStarted();
+        BackgroundLooper.pauseScrolling = false;
+        
 
         SoundManager.Instance.PlayFlapSound();
         rb.AddForce(Vector2.up * flyForce, ForceMode2D.Impulse);

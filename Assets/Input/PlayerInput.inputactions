@@ -1,5 +1,5 @@
 {
-    "name": "FlappyBirdInput",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Gameplay",
@@ -38,8 +38,30 @@
                 },
                 {
                     "name": "",
+                    "id": "8302206d-123e-4311-8240-e66f4ea181d9",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unfreeze",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3eb2bad5-6981-4da8-a702-a524817b93e5",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fly",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb2dba86-8ee7-4b31-b5c9-0babdf0d885e",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

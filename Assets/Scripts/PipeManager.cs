@@ -6,8 +6,8 @@ public class PipeManager : MonoBehaviour
 {
     [SerializeField] private GameObject pipes;
     [SerializeField] private float spawnRate = 2f;
-    [SerializeField] private float spawnX = 9f;
-    [SerializeField] private float minY = -2.1f, maxY = 2.5f;
+    [SerializeField] private float spawnX = 12f;
+    [SerializeField] private float minY = -2f, maxY = 3.4f;
     
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class PipeManager : MonoBehaviour
         GameObject[] allPipes = GameObject.FindGameObjectsWithTag("Pipes");
         foreach (GameObject pipe in allPipes)
         {
-            if (pipe.transform.position.x < -10f)
+            if (pipe.transform.position.x < -15f)
             {
                 Destroy(pipe);
             }

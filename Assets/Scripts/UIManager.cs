@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
     {
         IsRestarting = true;
         ResetAll(false);
+        MarkGameStarted();
     }
 
     private void StartGame()
@@ -80,18 +81,20 @@ public class UIManager : MonoBehaviour
         HideScrollingBackground();
         currentScore.ShowScore();
         BackgroundLooper.pauseScrolling = true;
+        MarkGameStarted();
     }
 
     private void GoHome()
     {
         IsRestarting = false;
-        ResetAll(goingHome: true);
+        ResetAll(true);
         SoundManager.Instance.PlayThemeMusic();
     }
 
     public void ShowHighScore()
     {
         leaderboardPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
 
         LeaderboardData data = LeaderboardData.LoadLeaderboard();
 
@@ -114,6 +117,7 @@ public class UIManager : MonoBehaviour
     public void HideHighScore()
     {
         leaderboardPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
 
     private void ClearScores()
@@ -155,7 +159,7 @@ public class UIManager : MonoBehaviour
 
     private void ResetAll(bool goingHome)
     {
-        mainMenuPanel.SetActive(goingHome ? true : false);
+        mainMenuPanel.SetActive(goingHome);
 
         gameOverPanel.SetActive(false);
         

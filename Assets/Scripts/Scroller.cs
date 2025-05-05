@@ -17,7 +17,6 @@ public class BackgroundLooper : MonoBehaviour
     private void Start()
     {
         width = GetComponent<SpriteRenderer>().bounds.size.x;
-        Debug.Log("Sprite width: " + width);
     }
 
     private void Update()
