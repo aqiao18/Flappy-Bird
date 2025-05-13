@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     [Header("FlappyBird Sound Effects")]
     [SerializeField] private AudioSource soundFx;
     [SerializeField] private AudioClip[] flapClips;
+    [SerializeField] private AudioSource flapSource;
     [SerializeField] private AudioClip collisionClip;
     [SerializeField] private AudioClip scoreClip;
 
@@ -26,9 +27,11 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayFlapSound()
     {
-        if (flapClips.Length == 0) return;
+        if (flapClips.Length == 0 || flapSource == null) return;
         AudioClip clip = flapClips[Random.Range(0, flapClips.Length)];
-        soundFx.PlayOneShot(clip);
+        flapSource.Stop();
+        flapSource.clip = clip;
+        flapSource.Play();
     }
     public void PlayCollisionSound()
     {
